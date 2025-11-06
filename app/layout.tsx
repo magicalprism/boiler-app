@@ -21,6 +21,11 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { userId } = auth();
 
+  // TEMP DEBUG LOGS - remove after verification
+  console.log("[app] has NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:", !!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
+  console.log("[app] signInUrl:", process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL);
+  console.log("[app] signUpUrl:", process.env.NEXT_PUBLIC_CLERK_SIGN_UP_URL);
+
   if (userId) {
     try {
       // First check if the user already has a profile
@@ -60,7 +65,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   }
 
   return (
-    <ClerkProvider>
+    <ClerkProvider
+      publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
+      signInUrl={process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL}
+      signUpUrl={process.env.NEXT_PUBLIC_CLERK_SIGN_UP_URL}
+    >
       <html lang="en">
         <body className={inter.className}>
           <Providers
